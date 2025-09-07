@@ -62,6 +62,19 @@ export class LoadBalancer extends DurableObject {
 			return new Response('', { status: 204 });
 		}
 
+		// 处理 OPTIONS 请求  --测试功能
+		if (request.method === 'OPTIONS') {
+			return new Response(null, {
+				status: 204,
+				headers: {
+					'Access-Control-Allow-Origin': '*',
+					'Access-Control-Allow-Methods': '*',
+					'Access-Control-Allow-Headers': '*',
+					'Access-Control-Max-Age': '86400',
+				},
+			});
+		}
+
 		// 管理 API 权限校验（使用 HOME_ACCESS_KEY）
 		if (
 			(pathname === '/api/keys' && ['POST', 'GET', 'DELETE'].includes(request.method)) ||
